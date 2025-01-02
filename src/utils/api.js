@@ -36,6 +36,7 @@ export const getSpotifyAccessToken = async () => {
     }
 };
 
+
 /**
  * Fetch last 10 unique recently played songs
  */
@@ -81,7 +82,16 @@ export const fetchRecentlyPlayed = async () => {
     }
 };
 // Fetch the user's top track of the year
-export const fetchTopTrackOfYear = async (accessToken) => {
+/**
+ * Fetch the user's top track of the year
+ */
+/**
+ * Fetch the user's top track of the year
+ */
+export const fetchTopTrackOfYear = async () => {
+    // Retrieve a fresh Spotify access token
+    const accessToken = await getSpotifyAccessToken();
+
     try {
         const response = await fetch(
             "https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=1",
@@ -89,29 +99,39 @@ export const fetchTopTrackOfYear = async (accessToken) => {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
+                    "Content-Type": "application/json",
                 },
             }
         );
 
         if (!response.ok) {
-            throw new Error(`Spotify API Error: ${response.status}`);
+            throw new Error(
+                `Spotify API Error: ${response.status} - ${response.statusText}`
+            );
         }
 
         const data = await response.json();
-        if (data.items.length > 0) {
+
+        // Parse and return the top track details
+        if (data.items && data.items.length > 0) {
+            const track = data.items[0];
             return {
-                name: data.items[0].name,
-                artists: data.items[0].artists.map((artist) => artist.name).join(", "),
-                albumImage: data.items[0].album.images[0]?.url,
-                albumName: data.items[0].album.name,
+                id: track.id,
+                name: track.name,
+                artists: track.artists.map((artist) => artist.name).join(", "),
+                albumImage: track.album.images[0]?.url || "",
+                albumName: track.album.name,
+                href: track.external_urls.spotify, // Spotify link for the track
             };
         } else {
             throw new Error("No top tracks found for this year.");
         }
     } catch (error) {
-        console.error("Error fetching top track:", error);
+        console.error("Error fetching top track of the year:", error.message);
         throw error;
     }
 };
+
+
 
 
