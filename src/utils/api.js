@@ -82,12 +82,8 @@ export const fetchRecentlyPlayed = async () => {
     }
 };
 // Fetch the user's top track of the year
-/**
- * Fetch the user's top track of the year
- */
-/**
- * Fetch the user's top track of the year
- */
+
+
 export const fetchTopTrackOfYear = async () => {
     // Retrieve a fresh Spotify access token
     const accessToken = await getSpotifyAccessToken();
@@ -132,6 +128,63 @@ export const fetchTopTrackOfYear = async () => {
     }
 };
 
+export const getYouTubeAccessToken = async () => {
+    try {
+        const response = await fetch("https://oauth2.googleapis.com/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                client_id: YOUTUBE_CLIENT_ID,
+                client_secret: YOUTUBE_CLIENT_SECRET,
+                refresh_token: YOUTUBE_REFRESH_TOKEN,
+                grant_type: "refresh_token",
+            }),
+        });
+
+        const data = await response.json();
+        if (!data.access_token) {
+            throw new Error("Failed to get YouTube access token");
+        }
+        return data.access_token;
+    } catch (error) {
+        console.error("Error getting YouTube access token:", error);
+        throw error;
+    }
+};
+
+/**
+ * Search YouTube for a video based on track name and artist
+ */
+export const fetchYouTubeVideo = async (trackName, artistName) => {
+    const accessToken = await getYouTubeAccessToken();
+
+    try {
+        const query = `${trackName} ${artistName} audio`;
+        const response = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${encodeURIComponent(
+                query
+            )}&maxResults=1`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.items && data.items.length > 0) {
+            return data.items[0].id.videoId; // Return the first video ID
+        } else {
+            throw new Error(`No video found for "${trackName}" by "${artistName}"`);
+        }
+    } catch (error) {
+        console.error("Error fetching YouTube video:", error.message);
+        return null;
+    }
+};
 
 
 

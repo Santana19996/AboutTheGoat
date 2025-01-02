@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { fetchRecentlyPlayed, fetchTopTrackOfYear } from "./utils/api";
+import {
+    fetchRecentlyPlayed,
+    fetchTopTrackOfYear,
+    fetchYouTubeVideo,
+} from "./utils/api";
 import "./App.css";
 import Header from "./components/Header";
 
@@ -8,12 +12,22 @@ function App() {
     const [topTrack, setTopTrack] = useState(null);
     const [error, setError] = useState(null);
 
-    // Fetch Recently Played Songs
+    // Fetch Recently Played Songs and YouTube Video IDs
     useEffect(() => {
         const getRecentlyPlayed = async () => {
             try {
                 const tracks = await fetchRecentlyPlayed();
                 setRecentTracks(tracks);
+
+                // Fetch YouTube video for each track
+                for (const track of tracks) {
+                    const videoId = await fetchYouTubeVideo(track.name, track.artist);
+                    if (videoId) {
+                        console.log(`Video found for "${track.name}" by "${track.artist}": ${videoId}`);
+                    } else {
+                        console.log(`No video found for "${track.name}" by "${track.artist}"`);
+                    }
+                }
             } catch (err) {
                 console.error("Error fetching recently played tracks:", err);
             }
