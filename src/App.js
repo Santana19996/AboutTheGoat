@@ -67,7 +67,7 @@ function App() {
 
             {/* Top Track of the Year */}
             <section className="top-track-section">
-                <h1 className="gothic-title">Your Top Track of the Year</h1>
+                <h1 className="gothic-title">My Top Track of the Year</h1>
                 {error && <p className="error">{error}</p>}
                 {topTrack ? (
                     <div className="top-track-card">
