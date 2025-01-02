@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/AboutTheGoat/static/css/main.5c312556.css",
+    "main.js": "/AboutTheGoat/static/js/main.c928334c.js",
+    "index.html": "/AboutTheGoat/index.html",
+    "main.5c312556.css.map": "/AboutTheGoat/static/css/main.5c312556.css.map",
+    "main.c928334c.js.map": "/AboutTheGoat/static/js/main.c928334c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5c312556.css",
+    "static/js/main.c928334c.js"
+  ]
+}
