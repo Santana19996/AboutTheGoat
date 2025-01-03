@@ -61,7 +61,7 @@ export const fetchRecentlyPlayed = async () => {
 
         for (const item of data.items) {
             const track = item.track;
-            console.log("If your reading this, fuck you")
+            console.log("%cIf your reading this, fuck you", "color:red");
             if (!trackSet.has(track.id)) {
                 trackSet.add(track.id);
                 uniqueTracks.push({

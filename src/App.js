@@ -67,7 +67,7 @@ function App() {
 
             {/* Top Track of the Year */}
             <section className="top-track-section">
-                <h1 className="gothic-title">My Top Track of the Year</h1>
+                <h1 style={{color:"red"}} className="gothic-title">⋆♱✮☽🦇☽✮♰⋆My Top Track of the Year⋆♱✮☽🦇☽✮♰⋆</h1>
                 {error && <p className="error">{error}</p>}
                 {topTrack ? (
                     <div className="top-track-card">
@@ -89,7 +89,7 @@ function App() {
 
             {/* Recently Played Songs */}
             <section>
-                <h1 className="gothic-title">Recently Played Songs</h1>
+                <h1 className="gothic-title">☽ Recently Played Songs ☾</h1>
                 <div className="cards-container">
                     {recentTracks.length > 0 ? (
                         recentTracks.map((track) => (
