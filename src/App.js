@@ -76,6 +76,7 @@ function App() {
                             alt={topTrack.name}
                             className="top-track-image"
                         />
+
                         <div className="top-track-info">
                             <h2>{topTrack.name}</h2>
                             <p>By: {topTrack.artists}</p>
